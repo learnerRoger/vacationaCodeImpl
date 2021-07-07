@@ -15,12 +15,13 @@ import java.util.List;
 @Path("/customers")
 public class CustomerController2{
     private CustomerService customerService = new CustomerService();
-
+    //方式为get
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseResult<Object> index(Customer customer) throws Exception {
         List<Customer> customers = customerService.findAll();
         return ResponseUtils2.success(customers);
+
     }
 
 
