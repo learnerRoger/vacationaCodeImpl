@@ -19,7 +19,7 @@ public abstract class BaseDao<T> {
 
 	// JDBC驱动和数据库URL
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/hosptial?useUnicode=true&characterEncoding=utf8";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/hosptial?useUnicode=true&characterEncoding=UTF-8";
 
 	// 数据库用户名和密码
 	static final String USER = "root";

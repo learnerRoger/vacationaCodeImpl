@@ -16,20 +16,18 @@ public class Fitter1_AuthFitter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         System.out.println("AuthFitter doFitter");
         HttpServletRequest req = (HttpServletRequest) request;
+        boolean isLoginMethod = false;
         if ("login".equals(req.getParameter("method"))){
+            isLoginMethod = true;
+        }else if (req.getRequestURI().indexOf("/login") > 0) {
+            isLoginMethod = true;
+        }
+
+        if (isLoginMethod){
             chain.doFilter(request,response);
         }else {
-            String token = req.getParameter("token");
+            String token = req.getHeader("token");
             Object result = CacheUtils.get(token,null);
-            if (result == null){
-                try {
-                    ResponseUtils.error((HttpServletResponse)response,-1,"请先登录");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }else {
-                chain.doFilter(request,response);
-            }
         }
     }
 

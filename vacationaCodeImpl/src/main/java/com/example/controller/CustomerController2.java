@@ -7,21 +7,16 @@ import com.example.service.CustomerService;
 import com.example.utils.ResponseUtils;
 import com.example.utils.ResponseUtils2;
 
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
 
-@Path("")
+@Path("/customers")
 public class CustomerController2{
     private CustomerService customerService = new CustomerService();
 
     @GET
-    @Path("index")
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseResult<Object> index(Customer customer) throws Exception {
         List<Customer> customers = customerService.findAll();
@@ -29,98 +24,60 @@ public class CustomerController2{
     }
 
 
-
-    public void read(HttpServletRequest req,HttpServletResponse resp) throws IOException{
-        int id  = Integer.parseInt(req.getParameter("id"));
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResponseResult<Object> read(@PathParam("id") int id) throws Exception {
         Customer customer = customerService.findById(id);
-        try {
-            ResponseUtils.success(resp,customer);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        return ResponseUtils2.success(customer);
     }
 
-    public void page(HttpServletRequest req,HttpServletResponse resp) throws IOException{
-        int pageIndex = Integer.parseInt(req.getParameter("pageIndex"));
-        int pageSize = Integer.parseInt(req.getParameter("pageSize"));
+    @GET
+    @Path("/{pageIndex}/{pageSize}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResponseResult<Object> page(@PathParam("pageIndex") int pageIndex,@PathParam("pageSize") int pageSize) throws Exception{
         Page<Customer> result = customerService.findListByPage(pageIndex,pageSize);
-        try {
-            ResponseUtils.success(resp,result);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        return ResponseUtils2.success(result);
+
     }
 
-    public void create(HttpServletRequest req,HttpServletResponse resp) throws IOException{
-        int pno = Integer.parseInt(req.getParameter("pno"));
-        String pna = req.getParameter("pna");
-        String psex = req.getParameter("psex");
-        int page = Integer.parseInt(req.getParameter("page"));
-        String ptel = req.getParameter("ptel");
-        String pkind = req.getParameter("pkind");
-        String queuenum = req.getParameter("queuenum");
-        Customer customer = new Customer(pno,pna,psex,page,ptel,pkind,queuenum);
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResponseResult<Object> create(Customer customer) throws Exception{
         int result = customerService.save(customer);
         if(result > 0){
-            try {
-                ResponseUtils.success(resp,null);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            return  ResponseUtils2.success(null);
         }else{
-            try {
-                ResponseUtils.error(resp,"新增病人失败！");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            return  ResponseUtils2.error("新增病人失败！");
         }
     }
 
-    public void update(HttpServletRequest req,HttpServletResponse resp) throws IOException{
-        req.setCharacterEncoding("utf-8");
-        resp.setContentType("text/html; charset=utf-8");
-        resp.setCharacterEncoding("utf-8");
-        System.out.println(req.getParameter("pno"));
-        int pno = Integer.parseInt(req.getParameter("pno"));
-        String pna = req.getParameter("pna");
-        String psex = req.getParameter("psex");
-        int page = Integer.parseInt(req.getParameter("page"));
-        String ptel = req.getParameter("ptel");
-        String pkind = req.getParameter("pkind");
-        String queuenum = req.getParameter("queuenum");
-        Customer customer = new Customer(pno,pna,psex,page,ptel,pkind,queuenum);
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResponseResult<Object> update(Customer customer) throws Exception{
         int result = customerService.modify(customer);
         if(result > 0){
-            try {
-                ResponseUtils.success(resp,null);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+             return  ResponseUtils2.success(null);
         }else{
-            try {
-                ResponseUtils.error(resp,"修改病人失败！");
-            } catch (Exception e) {
-                e.printStackTrace();
+             return   ResponseUtils2.error("修改病人失败！");
             }
-        }
     }
 
-    public void delete(HttpServletRequest req,HttpServletResponse resp) throws IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
+
+    @DELETE
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResponseResult<Object> delete(@PathParam("id") int id) throws Exception {
         int result = customerService.remove(id);
         if (result > 0) {
-            try {
-                ResponseUtils.success(resp, null);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                ResponseUtils.error(resp, "删除病人失败！");
-            } catch (Exception e) {
-                e.printStackTrace();
+             return  ResponseUtils2.success(null);
+        }else {
+             return  ResponseUtils2.error("删除病人失败！");
             }
         }
-    }
 
 }

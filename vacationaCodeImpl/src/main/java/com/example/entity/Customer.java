@@ -37,7 +37,7 @@ public class Customer {
     }
 
     public void setPname(String Pname) {
-        Pname = Pname;
+        this.Pname = Pname;
     }
 
 
@@ -47,7 +47,7 @@ public class Customer {
     }
 
     public void setPsex(String Psex) {
-        Psex = Psex;
+        this.Psex = Psex;
     }
 
     public int getPage() {

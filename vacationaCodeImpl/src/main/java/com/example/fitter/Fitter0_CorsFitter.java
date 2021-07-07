@@ -14,7 +14,6 @@ public class Fitter0_CorsFitter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("CorsFilter doFliter");
         HttpServletResponse resp = (HttpServletResponse) response;
         //允许的主机地址
         resp.setHeader("Access-Control-Allow-Origin","*");

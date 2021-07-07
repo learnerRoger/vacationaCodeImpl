@@ -29,9 +29,9 @@ public class CustomerDao extends BaseDao<Customer>{
 
     }
     public Customer query(int id){
-        String sql = "select * from patient where Psex like ?";
+        String sql = "select * from patient where patient_no = ?";
         Customer customer = queryBean(sql,id);
-//        System.out.println("id: " + customer.getPatientNo() + " age " + customer.getPage());
+        System.out.println("name: " + customer.getPname() + " sex " + customer.getPsex());
         return customer;
     }
 
