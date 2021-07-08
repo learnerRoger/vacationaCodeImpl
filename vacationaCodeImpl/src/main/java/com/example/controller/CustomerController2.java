@@ -16,6 +16,7 @@ import java.util.List;
 public class CustomerController2{
     private CustomerService customerService = new CustomerService();
     //方式为get
+    //testdemo
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseResult<Object> index(Customer customer) throws Exception {
