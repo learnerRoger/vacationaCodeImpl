@@ -18,7 +18,7 @@ public class Fitter0_CorsFitter implements Filter {
         //允许的主机地址
         resp.setHeader("Access-Control-Allow-Origin","*");
         //GET  POST PUT DELETE
-        resp.setHeader("Access-Control-Allow-Method","*");
+        resp.setHeader("Access-Control-Allow-Methods","*");
         //缓存时间
         resp.setHeader("Access-Control-Max-Age","3600");
         //允许的请求头

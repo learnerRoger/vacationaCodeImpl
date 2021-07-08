@@ -13,11 +13,12 @@ import java.util.UUID;
 public class AuthController2{
     private AdminService adminService = new AdminService();
 
-    @POST
+    @GET
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseResult<Object> login(Admin admin) throws Exception{
+        System.out.println(admin.getUsername() + " " + admin.getPassword());
         if (admin != null){
             String token = UUID.randomUUID().toString().replace("-","");
             CacheUtils.put(token,admin);
@@ -26,6 +27,8 @@ public class AuthController2{
             return ResponseUtils2.error("用户名或者密码错误！");
         }
     }
+
+
     @POST
     @Path("logout")
     @Consumes(MediaType.APPLICATION_JSON)

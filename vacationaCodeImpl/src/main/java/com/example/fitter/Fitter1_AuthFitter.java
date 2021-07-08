@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-//@WebFilter(urlPatterns = {"/*"})
+@WebFilter(urlPatterns = {"/*"})
 public class Fitter1_AuthFitter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -28,6 +28,15 @@ public class Fitter1_AuthFitter implements Filter {
         }else {
             String token = req.getHeader("token");
             Object result = CacheUtils.get(token,null);
+            if (result == null){
+                try {
+                    ResponseUtils.error((HttpServletResponse)response,-1,"请先登录");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else {
+                chain.doFilter(request,response);
+            }
         }
     }
 
